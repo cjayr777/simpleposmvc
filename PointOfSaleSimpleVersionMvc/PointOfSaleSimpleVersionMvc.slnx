@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="PointOfSaleSimpleVersionMvc/PointOfSaleSimpleVersionMvc.csproj" />
+  <Project Path="Pos.BusinessLogic/Pos.BusinessLogic.csproj" />
+  <Project Path="Pos.DataAccess/Pos.DataAccess.csproj" />
+  <Project Path="Pos.Model/Pos.Model.csproj" />
+  <Project Path="Pos.Tabular/Pos.Tabular.csproj" />
+  <Project Path="Pos.ViewModel/Pos.ViewModel.csproj" />
+  <Project Path="Proj.Util/Proj.Util.csproj" />
+</Solution>

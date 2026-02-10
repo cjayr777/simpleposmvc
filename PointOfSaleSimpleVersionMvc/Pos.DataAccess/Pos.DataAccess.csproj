@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pos.Model\Pos.Model.csproj" />
+    <ProjectReference Include="..\Pos.Tabular\Pos.Tabular.csproj" />
+    <ProjectReference Include="..\Proj.Util\Proj.Util.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Npgsql">
+      <HintPath>..\Proj.Util\Npgsql.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

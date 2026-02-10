@@ -1,0 +1,99 @@
+﻿@using Pos.ViewModel
+@model ProductTypeVm
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>View Only Mode</h1>
+
+<partial name="_Alerts" />
+
+
+<!--
+@if (Model is null)
+{
+    <div class="alert alert-warning">Record not found.</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-6" >
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input id="name" class="form-control" readonly value="@Model.Name"/>
+            </div>
+
+            <div class="mb-3" >
+                <label class="form-label" for="details">Details</label>
+                <textarea id="details" class="form-control" rows="4" readonly>@Model.Details</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="sortOrder">Sort Order</label>
+                <input id="sortOrder" class="form-control" readonly type="number" value="@Model.SortOrder"/>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <a asp-action="Edit" asp-route-id="@Model.ProtectedId" class="btn btn-primary btn-fixed">Edit</a>
+        </div>
+    </div>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary btn-fixed" >List Page</a>
+
+    @* 
+
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a> 
+    *@
+</div>
+
+-->
+
+<div class="row">
+    <div class="col-md-4">
+        <form class="vstack gap-3">
+
+            <div>
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name"
+                       class="form-control"
+                       readonly />
+            </div>
+
+            <div>
+                <label asp-for="Details" class="form-label"></label>
+                <textarea asp-for="Details"
+                          class="form-control"
+                          readonly 
+                          rows="4" >
+                </textarea>
+            </div>
+
+            <div>
+                <label asp-for="SortOrder" class="form-label"></label>
+                <input asp-for="SortOrder"
+                       class="form-control"                       
+                       readonly 
+                       type="number" />
+            </div>
+            
+            <div class="d-flex gap-2 mt-2">
+                <a asp-controller="ProductTypes"
+                   asp-action="Edit"
+                   asp-route-id="@Model.ProtectedId"
+                   class="btn btn-primary btn-fixed">
+                    Edit This
+                </a>
+
+                <a asp-action="Index" class="btn btn-info btn-fixed">
+                    List Page
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
