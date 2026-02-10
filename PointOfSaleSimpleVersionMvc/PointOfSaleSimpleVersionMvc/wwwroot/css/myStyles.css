@@ -6,3 +6,12 @@
 textarea {
     resize: none;
 }
+
+.sticky-search {
+    position: sticky;
+    top: 0; /* sticks to top */
+    z-index: 1020; /* above table */
+    background: #fff; /* avoid bleed-through */
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}

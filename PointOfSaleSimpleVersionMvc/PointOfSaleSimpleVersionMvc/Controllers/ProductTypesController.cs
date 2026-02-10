@@ -31,63 +31,73 @@ public class ProductTypesController : Controller
         return 1;
     }
 
-    private DataResult<List<ProductTypeVm>> Search(
-    DataResult<List<ProductTypeVm>> result)
+    private void ProtectIds(IEnumerable<ProductTypeVm>? items)
     {
-        if (!result.IsSuccess)
-        {
-            return result;
-        }
+        if (items == null) return;
 
-        if (result.Data != null)
+        foreach (var item in items)
         {
-            foreach (var item in result.Data)
-            {
-                item.ProtectedId = ip.Protect(item.ProductTypeId);
-            }
+            item.ProtectedId = ip.Protect(item.ProductTypeId);
         }
+    }
 
-        return result;
+    private PagedResult<ProductTypeVm> ToPaged(
+    List<ProductTypeVm> items,
+    int page,
+    int pageSize)
+    {
+        var pagedItems = items
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        ProtectIds(pagedItems);
+
+        return new PagedResult<ProductTypeVm>
+        {
+            PageNumber = page,
+            PageSize = pageSize,
+            TotalItems = items.Count,
+            Items = pagedItems
+        };
     }
 
 
-
-    public async Task<ActionResult> SearchIndex()
+    public async Task<IActionResult> SearchIndex(int page = 1)
     {
-        //Entity ??= new ProductTypeVm();
+        const int pageSize = 5;
+
         Entity.Search ??= "";
 
         var result = await biz.GetAsync(Entity, SortMode.asc);
-        result = Search(result);
 
-
-        if (!result.IsSuccess)
+        if (!result.IsSuccess || result.Data == null)
         {
             TempData[TempDataKey.Error] = result.Message;
+            return View(GenPageName.Index, new PagedResult<ProductTypeVm>());
         }
 
-        // TODO: PAGINATION
-        return View(GenPageName.Index, result.Data);
+        var paged = ToPaged(result.Data, page, pageSize);
+
+        return View(GenPageName.Index, paged);
     }
 
     // GET: ProductTypesController
-    public async Task<ActionResult> Index()
+    public async Task<IActionResult> Index(int page = 1)
     {
-        //Entity ??= new ProductTypeVm();
-        Entity.Search ??= "";
+        const int pageSize = 5;
 
-        var result = await biz.GetAsync(Entity, SortMode.asc);
-        result = Search(result);
+        var result = await biz.GetAsync(new ProductTypeVm());
 
-        if (!result.IsSuccess && TempData[TempDataKey.Error] == null)
+        if (!result.IsSuccess || result.Data == null)
         {
             TempData[TempDataKey.Error] = result.Message;
+            return View(new PagedResult<ProductTypeVm>());
         }
 
-        // TODO: PAGINATION
-        return View(GenPageName.Index, result.Data);
+        var paged = ToPaged(result.Data, page, pageSize);
 
-        //return View();
+        return View(paged);
     }
 
     // GET: ProductTypesController/Details/5

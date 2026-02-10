@@ -1,6 +1,6 @@
-﻿@using Pos.ViewModel
-@model List<ProductTypeVm>
-
+﻿@using PointOfSaleSimpleVersionMvc.ViewHelpers
+@using Pos.ViewModel
+@model PagedResult<ProductTypeVm>
 @{
     ViewData["Title"] = "Product Types";
 }
@@ -10,23 +10,29 @@
 
 <partial name="_Alerts" />
 
-<form method="get" asp-action="SearchIndex" class="mb-3">
-    <div class="input-group">
-        <input name="Entity.Search"
-               class="form-control"
-               type="search"
-               value="@Context.Request.Query["Entity.Search"]"
-               placeholder="Search types..."/>
+<div class="sticky-search">
+    <form asp-action="SearchIndex" class="mb-3" method="get">
+        <div class="input-group">
+            <input class="form-control" 
+                   name="Entity.Search"
+                   placeholder="Search types..."
+                   type="search"
+                   value="@Context.Request.Query["Entity.Search"]"/>
 
-        <button class="btn btn-info btn-fixed" type="submit">Search</button>
-    </div>
+            <button class="btn btn-info btn-fixed" type="submit">Search</button>
+        </div>
 
-    
-</form>
+
+    </form>
+</div>
+
+
 
 <p>
     <a asp-action="Create" class="btn btn-primary btn-fixed">New</a>
 </p>
+
+<a id="product-types"></a>
 
 <table class="table table-hover w-100">
     <thead>
@@ -39,7 +45,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (!Model.Any())
+        @if (!Model.Items.Any())
         {
             <tr>
                 <td colspan="4" class="text-center text-muted">
@@ -51,7 +57,7 @@
         {
             var rowNo = 1;
 
-            foreach (var item in Model)
+            foreach (var item in Model.Items)
             {
                 <tr class="align-middle">
                     <td class="text-end me-3">@rowNo</td>
@@ -60,8 +66,7 @@
                     <td class="text-center">@item.SortOrder</td>
                     
                     <td class="text-nowrap">
-                        <!-- d-grid makes them stack (vertical) by default -->
-                        <!-- d-md-flex makes them horizontal again on medium screens and up -->
+                       
                         <div class="d-grid d-md-flex gap-2">
                             <a asp-action="Edit" asp-route-id="@item.ProtectedId" class="btn btn-sm btn-primary btn-fixed">
                                 Edit
@@ -81,3 +86,42 @@
         }
     </tbody>
 </table>
+
+@if (Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageNumber - 1)"
+                   asp-fragment="product-types">
+                    Previous
+                </a>
+            </li>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Index"
+                       asp-route-page="@i"
+                       asp-fragment="product-types">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(Model.HasNext ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="Index"
+                   asp-route-page="@(Model.PageNumber + 1)"
+                   asp-fragment="product-types">
+                    Next
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+}
