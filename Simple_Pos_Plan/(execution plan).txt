@@ -1,0 +1,233 @@
+1. Define the Minimum Viable POS (Do Not Skip This)
+Objective: Prevent scope creep and decision fatigue.
+
+	PHASE I: Core features:
+
+		Item Management (CRUD)
+			Products
+			Product Types
+			Users / Sellers
+
+		Simple Sales Transaction
+			Transactions
+			Purchased items
+
+		Transaction Summary
+			Total
+			Change
+
+		Basic Receipt Reference
+			Transaction Code
+			Transaction Date
+			Grand Total
+
+	Explicitly out of scope for today (will do but later in the development)
+
+		User roles
+
+		Reports
+
+		Discounts
+
+		Multi-branch
+
+		Sync / cloud / offline logic
+
+		Product Images
+
+Write this at the top of your task list so you do not “wander.”
+
+
+2. Architecture Lock-In (One-Time Decision)
+Decide and freeze these today:
+
+	UI: Razor Pages / MVC / MAUI / Web (pick ONE)
+
+	Backend: ASP.NET Core
+
+	DB: PostgreSQL
+
+	Pattern:
+		Data Access (DB)
+		Business Logic
+		View Model
+
+Rule: No refactoring architecture until Phase 3 is done.
+
+3. Database First (Fast Wins)
+Create only essential tables.
+
+	Tables
+
+		products
+			product_id
+			product_code
+			name
+			details
+			price
+			product_type_id
+			sort_order
+			stat_id
+
+		product_types
+			product_type_id
+			name
+			details
+			sort_order
+			stat_id
+
+		transactions
+			transaction_id
+			transaction_code
+			transaction_date
+			seller_id
+			grand_total
+			paid_amount
+			change_amount
+			stat_id
+
+		purchases
+			purchase_id
+			transaction_id
+			product_id
+			quantity
+			unit_price
+			sub_total
+			stat_id
+
+		sellers
+			seller_id
+			seller_code
+			password
+			last_name
+			first_name
+			middle_name
+			stat_id
+
+		stat_id
+			stat_id
+			name
+			details
+
+Deliverable:
+Tables + basic insert/select working.
+
+✔ If DB works, momentum returns.
+
+4. Data Access Layer (No Business Logic Yet)
+Goal: Confirm DB communication is stable.
+
+	Implement:
+
+		ProductDb
+			Get item (by id /code / name)
+			Add item
+			Update item
+			Delete item
+
+		TransactionDb
+			Insert transaction
+			Insert purchase items
+
+	Rules:
+		No validation
+		No UI concerns
+		Return raw data or Result<T>
+
+5. Business Logic Layer (Thin, Focused)
+
+	Only these responsibilities:
+
+		Validate inputs
+
+		Compute totals
+
+		Fail fast on errors
+
+		Example responsibilities:
+
+			CreateSale()
+
+			Calculate total
+
+			Save sale
+
+			Save purchase items
+
+No logging. No optimization. No retries.
+
+6. UI – One Screen at a Time
+
+	Screen 1: Product Management
+
+		List products
+
+		Add product
+
+		Edit product
+
+	Screen 2: POS Screen
+
+		Select product
+
+		Enter quantity
+
+		Add to cart
+
+		Show running total
+
+		Save transaction
+
+Rule:
+If it works ugly → it works.
+
+7. Daily Dev Rhythm (Anti-Sluggishness)
+Start of Session (5 minutes)
+
+Write 3 tasks max
+
+	Tasks must be finishable in ≤ 45 minutes
+
+	Example:
+
+		Create product table
+
+		Implement ProductDb.GetItem
+
+		Show product list UI
+
+During Session
+
+	Timer: 45 min work → 10 min break
+
+	No YouTube / refactoring / reading blogs
+
+End of Session (5 minutes)
+
+	Write what you completed
+
+	Write ONE task for tomorrow
+
+8. Psychological Reset (Important)
+
+You are not “slacking” — you are overloaded without structure.
+
+	This plan:
+
+		Reduces decision fatigue
+
+		Forces visible progress
+
+		Prevents perfection paralysis
+
+	Momentum comes from finishing, not planning.
+
+9. If You Want, I Can:
+
+Convert this into a Notion / Markdown / checklist file
+
+Break today into a 2–3 hour micro-plan
+
+Draft table schemas or starter code based on your existing helper classes
+
+Tell me which one you want and what stack you’re committing to today.
