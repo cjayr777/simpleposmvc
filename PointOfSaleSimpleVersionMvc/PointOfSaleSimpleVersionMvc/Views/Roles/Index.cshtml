@@ -1,0 +1,38 @@
+﻿@using PointOfSaleSimpleVersionMvc.ViewHelpers
+@using Pos.ViewModel
+@model PagedResult<ProductTypeVm>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>Roles</h1>
+
+<partial name="_Alerts" />
+
+<div class="sticky-search">
+    <form asp-action="SearchIndex" class="mb-3" method="get">
+        <input class="form-control"
+               name="Entity.Search"
+               placeholder="Search roles..."
+               type="search"
+               value="@Context.Request.Query["Entity.Search"]"/>
+
+        <button class="btn btn-info btn-fixed" type="submit">Search</button>
+    </form>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary btn-fixed">New</a>
+</p>
+
+<a id="product-types" ></a>
+
+<table class="table table-hover w-100">
+    <thead>
+        <tr>
+            <th class="text-end" me-3">#</th>
+        </tr>
+        
+    </thead>
+</table>

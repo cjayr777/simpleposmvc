@@ -8,6 +8,7 @@ public class RoleVm
     [DisplayName("Id")]
     public int RoleId { get; set; }
 
+
     [DisplayName("Role")]
     [Required]
     public string Name { get; set; }
@@ -23,7 +24,7 @@ public class RoleVm
 
     [DisplayName("Status")]
     public string StatName { get; set; }
-        
+
     public string? Search { get; set; }
 
     [DisplayName("Actioner Id")]
@@ -31,6 +32,8 @@ public class RoleVm
 
     [DisplayName("Actioner Name")]
     public string ActionerName { get; set; }
+
+    public string ProtectedId { get; set; }
 
 
     public RoleVm()
@@ -44,6 +47,7 @@ public class RoleVm
         Search = "";
         ActionerId = 0;
         ActionerName = "";
+        ProtectedId = "0";
     }
 
 }

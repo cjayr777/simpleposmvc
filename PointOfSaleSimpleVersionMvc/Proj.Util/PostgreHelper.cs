@@ -169,7 +169,7 @@ public sealed class PostgreHelper
 
     public async Task<DataTable> CallFunctionQueryParamAsync(string storedFunctionName, Dictionary<string, object?>? args)
     {
-        string sql = $"SELECT *FROM {storedFunctionName} ({BuildArgsList(args)}) WHERE (p_error_message = '' OR p_error_message IS NULL);;";
+        string sql = $"SELECT *FROM {storedFunctionName} ({BuildArgsList(args)}) WHERE (p_error_message = '' OR p_error_message IS NULL);";
 
         return await ExecuteQueryAsync(sql, args);
     }

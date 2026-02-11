@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MySqlX.XDevAPI.Common;
+﻿using Microsoft.AspNetCore.Mvc;
 using PointOfSaleSimpleVersionMvc.ViewHelpers;
 using Pos.BusinessLogic;
 using Pos.ViewModel;
 using Proj.Util;
-using static Microsoft.CodeAnalysis.CSharp.SyntaxTokenParser;
 
 namespace PointOfSaleSimpleVersionMvc.Controllers;
 
@@ -25,11 +22,6 @@ public class ProductTypesController : Controller
     [BindProperty(SupportsGet = true)]
     public ProductTypeVm Entity { get; set; }
 
-
-    private int GetLoggedinUser()
-    {
-        return 1;
-    }
 
     private void ProtectIds(IEnumerable<ProductTypeVm>? items)
     {
@@ -147,7 +139,7 @@ public class ProductTypesController : Controller
                 return View(GenPageName.Create, Entity);
             }
 
-            Entity.ActionerId = GetLoggedinUser();
+            Entity.ActionerId = LoggedUser.UserId;
             var opResult = await biz.AddAsync(Entity);
 
             if (!opResult.IsSuccess)
@@ -200,7 +192,7 @@ public class ProductTypesController : Controller
             return View(GenPageName.Edit, model);
         }
 
-        model.ActionerId = GetLoggedinUser();
+        model.ActionerId = LoggedUser.UserId;
         model.ProductTypeId = ip.Unprotect(model.ProtectedId);
 
         var result = await biz.EditAsync(model);
@@ -251,7 +243,7 @@ public class ProductTypesController : Controller
             return View(GenPageName.Delete, model);
         }
 
-        model.ActionerId = GetLoggedinUser();
+        model.ActionerId = LoggedUser.UserId;
         model.ProductTypeId = ip.Unprotect(model.ProtectedId);
 
         var result = await biz.DeleteAsync(model);
